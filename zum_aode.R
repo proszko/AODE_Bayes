@@ -9,8 +9,25 @@ learn_datac <- head(test_datac,9)
 
 
 
-aode_bayes <- function(training_data, validation_data){
-  unique_values <- unique(training_data[,ncol(training_data)])
+aode_bayes <- function (data, formula){
+  
+  result <- list(training_data = data, formula = formula)
+  return(result)
+  
+}
+
+
+
+
+predict <- function(aode, data){
+  
+  form <- aode[["formula"]]
+  
+  training_data <- model.frame(form, data = aode[["training_data"]])
+  
+  validation_data <- model.frame(form, data = data)
+  
+  unique_values <- unique(training_data[,1])
   n <- nrow(training_data)
   P = data.frame()
   result = c()
@@ -30,17 +47,17 @@ aode_bayes <- function(training_data, validation_data){
       
       p_i = c()
       p_podsieci = c()
-      it_vector_j <- 1:(ncol(training_data)-1) 
+      it_vector_j <- 2:(ncol(training_data)) 
       
       for (j in it_vector_j){
-        n_ij = nrow(subset(training_data,training_data[,ncol(training_data)]==i & training_data[,j]==entry[,j]))
-        p_ij = (n_ij+1/(unique_columns[j]*unique_columns[ncol(training_data)]))/(n+1) #wygladzone
+        n_ij = nrow(subset(training_data,training_data[,1]==i & training_data[,j]==entry[,j]))
+        p_ij = (n_ij+1/(unique_columns[j]*unique_columns[1]))/(n+1) #wygladzone
         #p_ij = n_ij/n #niewygladzone
         
-        it_vector_k <- it_vector_j[it_vector_j!=j]  
+        # it_vector_k <- it_vector_j[it_vector_j!=j]  
         for (k in it_vector_j){
           if (j==k){next}
-          n_ijk = nrow(subset(training_data,training_data[,ncol(training_data)]==i & training_data[,j]==entry[,j] & training_data[,k]==entry[,k]))
+          n_ijk = nrow(subset(training_data,training_data[,1]==i & training_data[,j]==entry[,j] & training_data[,k]==entry[,k]))
           p_ijk = (n_ijk+1/unique_columns[k])/(n_ij+1) #wygladzone
           # p_ijk = n_ijk/n_ij    #niewygladzone
           p_ij = p_ij * p_ijk
@@ -98,7 +115,8 @@ aode_bayes <- function(training_data, validation_data){
   return(result)
 }
 
-ab <- aode_bayes(test_datac,test_datac[1:10,])
+x <- aode_bayes(test_datac, c ~ .)
+ab <- predict (x, test_datac)
 
 
 
