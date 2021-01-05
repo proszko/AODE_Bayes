@@ -14,6 +14,11 @@ aode_bayes <- function(training_data, validation_data){
   n <- nrow(training_data)
   P = data.frame()
   result = c()
+  unique_columns <- c()
+  
+  for (col_no in 1:ncol(training_data)){
+    unique_columns <- append(unique_columns, length(unique(training_data[,col_no])))
+  }
   
   
   for (row_no in 1:nrow(validation_data)){
@@ -29,14 +34,15 @@ aode_bayes <- function(training_data, validation_data){
       
       for (j in it_vector_j){
         n_ij = nrow(subset(training_data,training_data[,ncol(training_data)]==i & training_data[,j]==entry[,j]))
-        p_ij = n_ij/n
+        p_ij = (n_ij+1/(unique_columns[j]*unique_columns[ncol(training_data)]))/(n+1) #wygladzone
+        #p_ij = n_ij/n #niewygladzone
         
         it_vector_k <- it_vector_j[it_vector_j!=j]  
-        for (k in it_vector_k){
+        for (k in it_vector_j){
+          if (j==k){next}
           n_ijk = nrow(subset(training_data,training_data[,ncol(training_data)]==i & training_data[,j]==entry[,j] & training_data[,k]==entry[,k]))
-          if (n_ijk != 0){p_ijk = n_ijk/n_ij}
-          else {p_ijk=0.01}
-          
+          p_ijk = (n_ijk+1/unique_columns[k])/(n_ij+1) #wygladzone
+          # p_ijk = n_ijk/n_ij    #niewygladzone
           p_ij = p_ij * p_ijk
         }
         
