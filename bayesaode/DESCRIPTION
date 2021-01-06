@@ -1,0 +1,20 @@
+Package: bayesaode
+Title: Non-naive AODE Bayesian Algorithm
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Piotr",
+           family = "Roszkowski",
+           role = c("aut", "cre"),
+           email = "piotr.roszkowski.stud@pw.edu.pl")
+    person(given = "Mikołaj",
+           family = "Kowalczewski",
+           role = c("aut", "cre"),
+           email = "mikolaj.kowalczewski.stud@pw.edu.pl")
+Description: This package offers functions to work with a non-naive AODE Bayesian Algorithm. Its general purpose is for classification of discrete datasets. It offers more robust approach to classifaction task than naive Bayesian algorithm, since it uses more linkage in a Bayesian network.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    stats
