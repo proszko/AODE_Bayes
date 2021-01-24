@@ -147,6 +147,8 @@ predict <- function(aode, data){
     result[result==i]=unique_values[i]
   }
 
+  result = factor(result)
+  
   P
   result
   classification_quality
