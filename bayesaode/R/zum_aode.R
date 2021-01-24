@@ -1,6 +1,18 @@
-
-
-
+#' bayesaode: A package for classifying dataset using non-naive AODE Bayesian algorithm
+#'
+#' The package provides two functions: aode_bayes and predict for usage of
+#' performing classification task using non-naive Bayesian algorithm:
+#'
+#' @section aode_bayes:
+#' aode_bayes function is used for creating model object for aode algorithm.
+#'
+#' @section predict:
+#' function is used to perform a classifaction task using aode object
+#'
+#' @docType package
+#' @name bayesaode
+NULL
+#> NULL
 
 
 
@@ -131,9 +143,15 @@ predict <- function(aode, data){
 
   colnames(P) <- unique_values
 
+  for (i in 1:length(unique_values)){
+    result[result==i]=unique_values[i]
+  }
+
   P
   result
   classification_quality
+
+
 
   return(result)
 }
